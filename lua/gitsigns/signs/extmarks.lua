@@ -70,6 +70,7 @@ function M:add(bufnr, signs)
         sign_hl_group = hls.hl,
         number_hl_group = config.numhl and hls.numhl or nil,
         line_hl_group = config.linehl and hls.linehl or nil,
+        cursorline_hl_group = "CursorLine"
       })
 
       if not ok and config.debug_mode then
