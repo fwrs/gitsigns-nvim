@@ -63,6 +63,10 @@ function M:add(bufnr, signs)
 
       local hls = self.hls[s.type]
 
+      local cul_hl_fg = vim.api.nvim_get_hl(0, { name = "CursorLine", link = false }).bg
+      local hl_fg = vim.api.nvim_get_hl(0, { name = hls.hl, link = false }).fg
+      vim.api.nvim_set_hl(0, hls.hl .. "Cul", { fg = hl_fg, bg = cul_hl_fg })
+
       local ok, err = pcall(api.nvim_buf_set_extmark, bufnr, self.ns, s.lnum - 1, -1, {
         id = s.lnum,
         sign_text = config.signcolumn and text or '',
@@ -70,7 +74,7 @@ function M:add(bufnr, signs)
         sign_hl_group = hls.hl,
         number_hl_group = config.numhl and hls.numhl or nil,
         line_hl_group = config.linehl and hls.linehl or nil,
-        cursorline_hl_group = "CursorLine"
+        cursorline_hl_group = hls.hl .. "Cul"
       })
 
       if not ok and config.debug_mode then
